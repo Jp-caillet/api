@@ -1,5 +1,6 @@
 // Core
-const mock = require('../../models/get-user.js')
+ const Schema = require('../../models/users.js')
+const mongoose = require('mongoose')
 const validator = require('node-validator')
 
 const check = validator.isObject()
@@ -12,6 +13,28 @@ module.exports = class Search {
     this.run()
   }
 
+/**
+   * Data base connect
+   */
+  getModel (res, payload) {
+    mongoose.connect('mongodb://localhost:27017/api')
+
+    this.db = mongoose.connection
+    this.db.on('error', () => {
+      res.status(500).json({
+        'code': 500,
+        'message': 'Internal Server Error'
+      })
+
+      console.error(`[ERROR] user/create getModel() -> Connetion fail`)
+    })
+
+    const User = mongoose.model('User', Schema)
+    
+
+    return User
+    
+  }
   /**
    * Middleware
    */
@@ -20,14 +43,26 @@ module.exports = class Search {
       try {
         const result = {}
         const ids = req.body.ids
+        
+       let userIds = []
+        let users = []
 
-        for (let i = 0, len = ids.length; i < len; i += 1) {
-          Object.assign(result, {
-            [ids[i]]: mock[ids[i]]
+        console.log(ids)
+        this.getModel(res).find({
+          
+                  '_id': {$in: ids}
+               
+        }).exec().then(data => {
+          console.log(data)
+          res.status(200).json({
+            'data': data,
+            'code': 200,
+            'message': 'Good request'
           })
-        }
+        })
 
-        res.status(200).json(result)
+
+        
       } catch (e) {
         console.error(`[ERROR] user/search -> ${e}`)
         res.status(400).json({

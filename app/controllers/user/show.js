@@ -26,7 +26,7 @@ module.exports = class Show {
     })
 
     const User = mongoose.model('User', Schema)
-
+    
     return User
   }
 
