@@ -1,0 +1,65 @@
+FORMAT: 1A
+HOST: http://127.0.0.1:4000
+
+# API
+
+Here you can find the documentation of API42
+
+
+## User [/user]
+
+### Read a User by id [GET /user/show/{id}]
+
++ Attributes
+    + id (required, number) - The user id
+
++ Response 200 (application/json)
+{
+    "_id": "5b22e23b5f789b1db02ed1dc",
+    "id": 1,
+    "name": "toto",
+    "age": 5,
+    "gender": "male"
+}
++ Response 404 (application/json)
+{
+    "code": 404,
+    "message": "Not Found"
+}
+### Update a User by id [PUT /user/update{id}]
++ Attributes
+    + name (required, string) - The user name
+    + age (required, number) - The user age
+    + gender (required, string) - The user gender
+
++ Response 200 (application/json)
+{
+    "_id": "5b22e23c5f789b1db02ed1dd",
+    "id": 2,
+    "name": "chaud",
+    "age": 34,
+    "gender": "femal"
+}
++ Response 404 (application/json)
+{
+    "code": 404,
+    "message": "Not Found"
+}
+
+
+### Delete a User by id [DELETE /user/destroy/:id:]
++ Attributes
+    + id (required, number) - The user id
++ Response 200 (application/txt)
+"user delete"
++ Response 404 (application/txt)
+"user delete"
+
+## 404 Request Not Found [/]
+### 404 Request not found [GET /random-uri]
++ Response 404 (application/json)
+{
+        "status": 404,
+        "message": "404 request not found",
+        "data": null
+}
