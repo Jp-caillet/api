@@ -36,9 +36,7 @@ module.exports = class Show {
   middleware () {
     this.app.get('/user/show/:id', (req, res) => {
       try {
-        console.log(res)
          this.getModel(res).findOne({id: req.params.id}, function (err, user) { 
-          console.log(user)
           if (err) {
             res.status(404).json({
               code: 404,
@@ -48,7 +46,9 @@ module.exports = class Show {
           else{
             res.status(200).json(user)
           }
+
         })
+
       } catch (e) {
         console.error(`[ERROR] user/show/:id -> ${e}`)
         res.status(400).json({
@@ -56,6 +56,7 @@ module.exports = class Show {
           'message': 'Bad request'
         })
       }
+
     })
   }
 
