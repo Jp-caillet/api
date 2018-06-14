@@ -5,6 +5,7 @@ const validator = require('node-validator')
 
 // Core
 const check = validator.isObject()
+  .withOptional('id', validator.isNumber())
   .withRequired('name', validator.isString())
   .withOptional('age', validator.isNumber())
   .withOptional('gender', validator.isString({ regex: /^male|femal$/ }))
@@ -20,7 +21,7 @@ module.exports = class Create {
    * Data base connect
    */
   getModel (res, payload) {
-    mongoose.connect('mongodb://localhost:27017/socialobjects')
+    mongoose.connect('mongodb://localhost:27017/api')
 
     this.db = mongoose.connection
     this.db.on('error', () => {
@@ -34,7 +35,7 @@ module.exports = class Create {
 
     const User = mongoose.model('User', Schema)
     const model = new User
-
+     model.id = payload.id
     model.name = payload.name
     model.age = payload.age
     model.gender = payload.gender

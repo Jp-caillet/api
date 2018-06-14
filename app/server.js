@@ -4,9 +4,11 @@ const compression = require('compression')
 const cors = require('cors')
 const express = require('express')
 const helmet = require('helmet')
+const bdd = require('mongoose')
 
 // Core
 const routes = require('./controllers/routes.js')
+
 
 /**
  * Server
@@ -57,11 +59,34 @@ module.exports = class Server {
     this.app.disable('x-powered-by')
   }
 
+/**
+   * Test database
+   */
+
+testBdd () {
+  bdd.connect('mongodb://localhost/api')
+  let db = bdd.connection
+
+// Check connection
+db.on('error', console.error.bind(console, 'connection error:'))
+db.once('open', function() {
+  // we're connected!
+  console.log("tu es connecté bravo")
+});
+db.close()
+}
+
+
+
   /**
    * Run
    */
+
+
   run () {
+    
     try {
+      this.testBdd()
       this.security()
       this.middleware()
       this.routes()

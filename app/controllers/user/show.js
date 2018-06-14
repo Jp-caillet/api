@@ -1,5 +1,6 @@
 // Core
-const mock = require('../../models/get-user.js')
+const Schema = require('../../models/users.js')
+const mongoose = require('mongoose')
 
 module.exports = class Show {
   constructor (app) {
@@ -8,20 +9,46 @@ module.exports = class Show {
     this.run()
   }
 
+   /**
+   * Data base connect
+   */
+  getModel (res) {
+    mongoose.connect('mongodb://localhost:27017/api')
+
+    this.db = mongoose.connection
+    this.db.on('error', () => {
+      res.status(500).json({
+        'code': 500,
+        'message': 'Internal Server Error'
+      })
+
+      console.error(`[ERROR] user/create getModel() -> Connetion fail`)
+    })
+
+    const User = mongoose.model('User', Schema)
+
+    return User
+  }
+
   /**
    * Middleware
    */
   middleware () {
     this.app.get('/user/show/:id', (req, res) => {
       try {
-        if (!req.params || !req.params.id.length) {
-          res.status(404).json({
-            code: 404,
-            message: 'Not Found'
-          })
-        }
-
-        res.status(200).json(mock[req.params.id] || {})
+        console.log(res)
+         this.getModel(res).findOne({id: req.params.id}, function (err, user) { 
+          console.log(user)
+          if (err) {
+            res.status(404).json({
+              code: 404,
+              message: 'User not found'
+            })
+          }
+          else{
+            res.status(200).json(user)
+          }
+        })
       } catch (e) {
         console.error(`[ERROR] user/show/:id -> ${e}`)
         res.status(400).json({
