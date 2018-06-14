@@ -10,7 +10,7 @@ install nodejs & npm or yarn & mongoose
 
 ## How to use it 
 
-- clone this repository ()
+- clone this repository (https://github.com/Jp-caillet/api.git)
 - do yarn install or npm install
 - do yarn start or npm start (the project is run on http://localhost:4000/)
 - start mangod on localhost:27017
