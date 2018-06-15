@@ -18,7 +18,7 @@ describe('GET /user', () => {
    before(() => {
         // runs before all tests in this block
     });
-   /*
+   
   it('POST /create should create an user 1', (done) => {
     const payload = {'id':1,'name': 'toto','age':5,'gender': 'male'};
 
@@ -85,7 +85,7 @@ it('GET /show:id should not get an user by true id', (done) => {
           done();
       });
   });
-*/
+
 
 
   it('GET /show:id should have not id in url', (done) => {
@@ -124,7 +124,7 @@ it('GET /show:id should not get an user by true id', (done) => {
           done();
       });
   });
-/*
+
   it('POST /search should check the payload body is false', (done) => {
     const result = '{"errors":[{"parameter":"id","value":["1","3"],"message":"Unexpected value."},{"parameter":"ids","message":"Required value."}]}';
     const payload = {'ids': userreate};
@@ -177,5 +177,5 @@ it('GET /show:id should not get an user by true id', (done) => {
 
           done();
       });
-  });*/
+  });
 });
